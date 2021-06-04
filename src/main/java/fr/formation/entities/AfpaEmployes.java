@@ -2,12 +2,17 @@ package fr.formation.entities;
 // Generated 17 mai 2021 � 15:50:52 by Hibernate Tools 5.0.6.Final
 
 import java.math.BigDecimal;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,8 +26,8 @@ public class AfpaEmployes implements java.io.Serializable {
 
 	private BigDecimal idemploye;
 	private AfpaRoles afpaRoles;
-	private AfpaDepartements afpaDepartements;
-	private AfpaProjet afpaProjet;
+	private AfpaDepartements afpaDepartements= new AfpaDepartements();
+	private AfpaProjet afpaProjet= new AfpaProjet();
 	private String mail;
 	private String nom;
 	private String prenom;
@@ -48,10 +53,21 @@ public class AfpaEmployes implements java.io.Serializable {
 	}
 
 	@Id
-
+	@SequenceGenerator(name="AFPA_EMPLOYES_SEQ", sequenceName = "AFPA_EMPLOYES_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AFPA_EMPLOYES_SEQ")
 	@Column(name = "IDEMPLOYE", unique = true, nullable = false, precision = 22, scale = 0)
 	public BigDecimal getIdemploye() {
 		return this.idemploye;
+	}
+
+
+
+	
+
+	@Override
+	public String toString() {
+		return "AfpaEmployes [idemploye=" + idemploye + ", afpaDepartements=" + afpaDepartements + ", afpaProjet="
+				+ afpaProjet + ", nom=" + nom + ", prenom=" + prenom + "]";
 	}
 
 	public void setIdemploye(BigDecimal idemploye) {
@@ -59,7 +75,6 @@ public class AfpaEmployes implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonIgnore
 	@JoinColumn(name = "IDROLE")
 	public AfpaRoles getAfpaRoles() {
 		return this.afpaRoles;
@@ -69,8 +84,8 @@ public class AfpaEmployes implements java.io.Serializable {
 		this.afpaRoles = afpaRoles;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	//@JsonIgnore
 	@JoinColumn(name = "IDDEP")
 	public AfpaDepartements getAfpaDepartements() {
 		return this.afpaDepartements;
@@ -81,7 +96,6 @@ public class AfpaEmployes implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonIgnore
 	@JoinColumn(name = "IDPROJ")
 	public AfpaProjet getAfpaProjet() {
 		return this.afpaProjet;
@@ -126,5 +140,6 @@ public class AfpaEmployes implements java.io.Serializable {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+	
 
 }

@@ -16,5 +16,7 @@ public interface EmployesService {
 	public List<AfpaEmployes> findAll();
 	
 	AfpaEmployes findById(BigDecimal idemployes);
+	
+	List<AfpaEmployes> findByNomContains(String nom);
 
 }

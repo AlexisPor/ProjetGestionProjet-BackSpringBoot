@@ -3,10 +3,10 @@ package fr.formation.services;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.formation.dao.EmployesRepository;
 import fr.formation.entities.AfpaEmployes;
@@ -46,6 +46,12 @@ public class EmployesServiceImpl implements EmployesService {
 	public AfpaEmployes findById(BigDecimal idemployes) {
 		// TODO Auto-generated method stub
 		return empRepo.findById(idemployes).get();
+	}
+
+	@Override
+	public List<AfpaEmployes> findByNomContains(String nom) {
+		// TODO Auto-generated method stub
+		return empRepo.findByNomContains(nom);
 	}
 
 }

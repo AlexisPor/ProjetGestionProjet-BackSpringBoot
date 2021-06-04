@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.formation.entities.AfpaModules;
 import fr.formation.entities.AfpaProjet;
 import fr.formation.services.ProjetService;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/projet")
 public class ProjetRestController {
@@ -39,8 +41,14 @@ public class ProjetRestController {
 	}
 	
 	@DeleteMapping("/delete/{idprojet}")
-		public void delete(@PathVariable BigDecimal idProj) {
+		public void delete(@PathVariable(name="idprojet") BigDecimal idProj) {
 			AfpaProjet afpaProj = projServ.findById(idProj);
 			projServ.delete(afpaProj);
 		}
+	
+	@GetMapping("/find/{idprojet}")
+	public AfpaProjet findById(@PathVariable(name = "idprojet") BigDecimal idProjet) {
+		
+		return projServ.findById(idProjet);
+	}
 }
